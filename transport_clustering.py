@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import seaborn as sns
-# No need for geopy or time imports as we have direct coordinates now!
+
 
 # --- Configuration ---
 # Make sure 'nairobi_taxi_trips.csv' is in the same folder as this script.
