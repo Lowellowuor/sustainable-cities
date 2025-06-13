@@ -1,0 +1,152 @@
+
+
+{% block title %}Analysis Results - Nairobi Mobility Insights{% endblock %}
+
+{% block content %}
+<div class="bg-white p-8 rounded-xl shadow-lg mb-8 text-center">
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">Mobility Hotspot Analysis</h1>
+    <p class="text-lg text-gray-700 mb-2">
+        Analysis for file: <strong class="text-blue-600">{{ filename }}</strong>
+    </p>
+    <p class="text-md text-gray-600 mb-8">
+        Using <strong class="text-purple-600">{{ num_clusters }}</strong> clusters and columns `{{ lat_column }}` / `{{ lon_column }}`.
+    </p>
+
+    {% if error %}
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-left" role="alert">
+            <strong class="font-bold">Error:</strong>
+            <span class="block sm:inline"> {{ error }}</span>
+            <p class="mt-2 text-sm">Please ensure your CSV has the specified `{{ lat_column }}` and `{{ lon_column }}` columns, and valid coordinates within Nairobi's geographical bounds.</p>
+        </div>
+    {% else %}
+        <!-- Cluster Map Section -->
+        <div class="mb-10 p-4 border border-gray-200 rounded-lg bg-gray-50">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Cluster Map</h2>
+            {% if plot_images.cluster_map %}
+                <img src="data:image/png;base64,{{ plot_images.cluster_map }}" alt="Nairobi Mobility Hotspots Map" class="w-full h-auto rounded-lg shadow-md max-w-full mx-auto" />
+                <p class="text-sm text-gray-600 mt-2">
+                    (Each color represents a cluster of taxi pickups. Red 'X' marks are the proposed transport hub locations.)
+                </p>
+            {% else %}
+                <p class="text-red-500">No cluster map image could be generated.</p>
+            {% endif %}
+        </div>
+
+        <!-- Cluster Centers Table -->
+        <div class="mb-10 p-4 border border-gray-200 rounded-lg bg-gray-50 text-left">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Cluster Centers (Proposed Hub Coordinates)</h2>
+            {% if cluster_centers %}
+                <div class="overflow-x-auto">
+                    {{ cluster_centers | safe }}
+                </div>
+                <p class="text-sm text-gray-600 mt-2">
+                    These are the geographical coordinates of the center of each identified mobility hotspot.
+                </p>
+            {% else %}
+                <p class="text-red-500">No cluster center data available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Performance Metrics Section -->
+        <div class="mb-10 p-4 border border-gray-200 rounded-lg bg-blue-50 text-left">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">K-Means Performance Metrics</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-3">
+                For K-Means clustering, we evaluate performance using metrics that assess cluster quality, rather than "accuracy" like in supervised learning models.
+            </p>
+            <ul class="list-disc list-inside text-lg text-gray-700 leading-relaxed space-y-2">
+                <li><strong>Inertia (Within-cluster Sum of Squares):</strong> Measures how internally coherent clusters are. Lower values indicate tighter clusters. <br> <strong>Value:</strong> {{ "%.2f" | format(metrics.Inertia) if metrics.Inertia is not none else "N/A" }}</li>
+                <li><strong>Silhouette Score:</strong> Measures how similar an object is to its own cluster compared to other clusters. Values range from -1 to 1, where higher is better (closer to 1 indicates well-separated clusters). <br> <strong>Value:</strong> {{ "%.2f" | format(metrics.Silhouette_Score) if metrics.Silhouette_Score is not none and metrics.Silhouette_Score != "N/A" else "N/A" }}</li>
+            </ul>
+            <p class="text-sm text-gray-600 mt-4">
+                (Note: Accuracy metrics (like train/test percentage) are typically used for supervised learning tasks, where there are known 'correct' labels to predict. K-Means is unsupervised, focusing on discovering patterns.)
+            </p>
+        </div>
+
+        <!-- Additional Plots Section -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Detailed Data Visualizations</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <!-- Boxplot Latitude -->
+            <div class="p-4 border border-gray-200 rounded-lg bg-gray-50 flex flex-col items-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Distribution of {{ lat_column }}</h3>
+                {% if plot_images.boxplot_lat %}
+                    <img src="data:image/png;base64,{{ plot_images.boxplot_lat }}" alt="Boxplot of Latitude" class="w-full h-auto rounded-lg shadow-md" />
+                    <p class="text-sm text-gray-600 mt-2">
+                        (Shows the median, quartiles, and outliers of pickup latitudes.)
+                    </p>
+                {% else %}
+                    <p class="text-red-500">Boxplot for Latitude could not be generated.</p>
+                {% endif %}
+            </div>
+
+            <!-- Boxplot Longitude -->
+            <div class="p-4 border border-gray-200 rounded-lg bg-gray-50 flex flex-col items-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Distribution of {{ lon_column }}</h3>
+                {% if plot_images.boxplot_lon %}
+                    <img src="data:image/png;base64,{{ plot_images.boxplot_lon }}" alt="Boxplot of Longitude" class="w-full h-auto rounded-lg shadow-md" />
+                    <p class="text-sm text-gray-600 mt-2">
+                        (Shows the median, quartiles, and outliers of pickup longitudes.)
+                    </p>
+                {% else %}
+                    <p class="text-red-500">Boxplot for Longitude could not be generated.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Density Map (KDE Plot) -->
+        <div class="mb-10 p-4 border border-gray-200 rounded-lg bg-gray-50">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Overall Mobility Density</h3>
+            {% if plot_images.kde_plot %}
+                <img src="data:image/png;base64,{{ plot_images.kde_plot }}" alt="Density Map (KDE Plot)" class="w-full h-auto rounded-lg shadow-md max-w-full mx-auto" />
+                <p class="text-sm text-gray-600 mt-2 text-center">
+                    (Kernel Density Estimate plot showing the overall concentration of pickup locations, with warmer colors indicating higher density.)
+                </p>
+            {% else %}
+                <p class="text-red-500 text-center">Density map could not be generated.</p>
+            {% endif %}
+        </div>
+
+        <!-- Pairplot -->
+        <div class="mb-10 p-4 border border-gray-200 rounded-lg bg-gray-50">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center">Relationship Between Latitude and Longitude</h3>
+            {% if plot_images.pairplot %}
+                <img src="data:image/png;base64,{{ plot_images.pairplot }}" alt="Pairplot of Latitude and Longitude" class="w-full h-auto rounded-lg shadow-md max-w-full mx-auto" />
+                <p class="text-sm text-gray-600 mt-2 text-center">
+                    (Visualizes the distribution of each variable and the relationship between them, including histograms and scatter plots.)
+                </p>
+            {% else %}
+                <p class="text-red-500 text-center">Pairplot could not be generated.</p>
+            {% endif %}
+        </div>
+
+        <!-- Raw Analysis Output Section -->
+        {% if raw_output %}
+        <div class="mb-10 p-4 border border-gray-200 rounded-lg bg-gray-50 text-left">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Raw Script Output</h2>
+            <p class="text-gray-700 text-base mb-3">
+                This section provides the step-by-step console output from the data processing and clustering script, offering transparency into each stage of the analysis.
+            </p>
+            <pre class="whitespace-pre-wrap text-sm text-gray-800 bg-gray-100 p-4 rounded-lg overflow-x-auto border border-gray-200 font-mono leading-relaxed"><code>{{ raw_output }}</code></pre>
+        </div>
+        {% endif %}
+
+        <!-- Key Insights & Recommendations Section (Existing) -->
+        <div class="mb-10 p-4 border border-gray-200 rounded-lg bg-gray-50 text-left">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Key Insights & Recommendations</h2>
+            <ul class="list-disc list-inside text-lg text-gray-700 leading-relaxed space-y-3">
+                <li>The clustering analysis highlights areas with high taxi pickup frequencies, indicating existing travel demand.</li>
+                <li>These identified cluster centers are ideal locations for **new public transport stations, bus stops, or matatu termini** to serve the surrounding population efficiently.</li>
+                <li>Strategic placement of transport hubs can **reduce travel times, decrease congestion, and improve accessibility** to essential services and economic opportunities.</li>
+                <li>Optimizing routes based on actual demand contributes to <strong class="text-blue-600">SDG 11</strong> by fostering sustainable and inclusive urban mobility.</li>
+                <li>Further analysis could involve overlaying demographic data to understand the population served by each hotspot.</li>
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="mt-8">
+        <a href="{{ url_for('upload_file') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg transition duration-300 ease-in-out transform hover:scale-105">
+            Analyze Another File
+        </a>
+    </div>
+</div>
+{% endblock %}

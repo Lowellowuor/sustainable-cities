@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Nairobi Mobility Insights{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="text-center bg-white p-8 rounded-xl shadow-lg mb-8">
+    <h1 class="text-5xl sm:text-6xl font-extrabold text-gray-900 mb-4 leading-tight">
+        Nairobi Mobility Insights
+    </h1>
+    <p class="text-xl sm:text-2xl text-gray-700 leading-relaxed mb-6">
+        <strong class="text-blue-600">Smart Transport Planning Powered by Data for a Sustainable Future.</strong>
+    </p>
+    <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+        Harnessing the power of advanced data analytics and machine learning, we transform raw mobility data into actionable insights, paving the way for optimized public transport and thriving urban communities in Nairobi. Our vision is a city that moves smarter, greener, and more equitably.
+    </p>
+    <a href="{{ url_for('upload_file') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg sm:text-xl transition duration-300 ease-in-out transform hover:scale-105">
+        Upload Your Data to Get Started &rarr;
+    </a>
+</div>
+
+<!-- Our Mission Section -->
+<section class="bg-white p-8 rounded-xl shadow-lg mb-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 text-center">Our Mission: Driving Sustainable Urban Mobility</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div class="text-lg text-gray-700 leading-relaxed">
+            <p class="mb-4">
+                Our project is deeply committed to addressing <strong class="text-blue-600">UN Sustainable Development Goal 11: Sustainable Cities and Communities.</strong> We aim to empower urban planners, policymakers, and transport companies with the tools and insights needed to create more inclusive, safe, resilient, and sustainable urban environments.
+            </p>
+            <p class="mb-4">
+                In rapidly growing cities like Nairobi, efficient public transport is not just a convenience—it's a necessity for economic development, social equity, and environmental health. By identifying key mobility hotspots and optimizing transport routes based on real-world data, we directly contribute to:
+            </p>
+            <ul class="list-disc list-inside space-y-2 pl-4">
+                <li>Reducing traffic congestion and commuter stress.</li>
+                <li>Minimizing carbon emissions for cleaner air.</li>
+                <li>Ensuring equitable access to vital services and opportunities for all residents.</li>
+                <li>Supporting planned urban expansion and infrastructure investment.</li>
+            </ul>
+        </div>
+        <div class="flex justify-center items-center">
+            <img src="https://placehold.co/500x300/e0e7ff/334155?text=Urban+Sustainability" alt="Illustration of sustainable city development with green spaces and efficient transport" class="rounded-lg shadow-md w-full max-w-md md:max-w-full object-cover">
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="bg-white p-8 rounded-xl shadow-lg mb-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 text-center">How It Works: Our Data-Driven Process</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div class="p-6 rounded-lg bg-gray-50 shadow-md transform hover:scale-105 transition duration-300">
+            <div class="text-blue-600 text-5xl mb-3">📊</div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">1. Data Ingestion & Preprocessing</h3>
+            <p class="text-gray-700 text-base">
+                Securely upload your mobility data in CSV format. Our system intelligently cleans, filters, and prepares your geographical coordinates for precise analysis, focusing on key pickup/origin points.
+            </p>
+        </div>
+        <div class="p-6 rounded-lg bg-gray-50 shadow-md transform hover:scale-105 transition duration-300">
+            <div class="text-green-600 text-5xl mb-3">🧠</div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">2. Advanced K-Means Clustering</h3>
+            <p class="text-gray-700 text-base">
+                Utilizing robust K-Means clustering, our machine learning models identify natural and high-density clusters of mobility activity, revealing the true hotspots of demand.
+            </p>
+        </div>
+        <div class="p-6 rounded-lg bg-gray-50 shadow-md transform hover:scale-105 transition duration-300">
+            <div class="text-purple-600 text-5xl mb-3">📍</div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">3. Actionable Insights & Visualization</h3>
+            <p class="text-gray-700 text-base">
+                Instantly visualize these hotspots on an interactive map. We provide precise suggested hub locations and data-backed recommendations for smarter transport planning and urban development.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Our Technology Section -->
+<section class="bg-white p-8 rounded-xl shadow-lg mb-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 text-center">Behind the Scenes: Our Robust Tech Stack</h2>
+    <div class="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto text-center">
+        <p class="mb-4">
+            Our platform is built on a foundation of proven and scalable technologies to ensure reliability, performance, and future expandability.
+        </p>
+        <ul class="list-none space-y-3 text-center grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <li class="bg-gray-100 p-3 rounded-lg shadow-sm font-semibold text-blue-800">Python (Flask Framework)</li>
+            <li class="bg-gray-100 p-3 rounded-lg shadow-sm font-semibold text-green-800">Scikit-learn (Machine Learning)</li>
+            <li class="bg-gray-100 p-3 rounded-lg shadow-sm font-semibold text-purple-800">Pandas & Matplotlib/Seaborn (Data Processing & Viz)</li>
+            <li class="bg-gray-100 p-3 rounded-lg shadow-sm font-semibold text-orange-800">HTML5, CSS3 (Tailwind CSS)</li>
+            <li class="bg-gray-100 p-3 rounded-lg shadow-sm font-semibold text-red-800">JavaScript (for interactivity)</li>
+            <li class="bg-gray-100 p-3 rounded-lg shadow-sm font-semibold text-gray-800">Gunicorn (Production Server)</li>
+        </ul>
+        <p class="mt-4 text-base text-gray-600">
+            This powerful combination allows us to deliver accurate insights quickly and reliably.
+        </p>
+    </div>
+</section>
+
+
+<!-- Why This Matters Section -->
+<section class="bg-white p-8 rounded-xl shadow-lg mb-8">
+    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-6 text-center">Why This Matters: Impact & Benefits</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="p-6 rounded-lg bg-gray-50 shadow-md transform hover:scale-105 transition duration-300">
+            <h3 class="text-2xl font-semibold text-blue-700 mb-3">For Urban Planners & Policymakers</h3>
+            <p class="text-gray-700 text-lg leading-relaxed">
+                Empower your decisions with empirical data. Identify ideal locations for new bus terminals, matatu stages, and public transport routes, leading to more efficient urban development and optimized resource allocation. Contribute to a more organized and accessible city.
+            </p>
+        </div>
+        <div class="p-6 rounded-lg bg-gray-50 shadow-md transform hover:scale-105 transition duration-300">
+            <h3 class="text-2xl font-semibold text-green-700 mb-3">For Transport & Ride-Hailing Companies</h3>
+            <p class="text-gray-700 text-lg leading-relaxed">
+                Gain a deeper understanding of demand patterns, optimize your fleet dispatching in real-time, and discover underserved zones. Enhance service delivery, reduce operational costs, and significantly boost customer satisfaction and market share.
+            </p>
+        </div>
+        <div class="p-6 rounded-lg bg-gray-50 shadow-md transform hover:scale-105 transition duration-300">
+            <h3 class="text-2xl font-semibold text-purple-700 mb-3">For Nairobi Commuters</h3>
+            <p class="text-gray-700 text-lg leading-relaxed">
+                Experience shorter waiting times, reduced travel durations, and a more accessible, convenient, and environmentally friendly daily commute. A better-planned city means less time stuck in traffic and more time for what matters.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials/Success Stories Section (Mock Data) -->
+<section class="bg-gradient-to-r from-blue-700 to-indigo-800 p-8 rounded-xl shadow-lg mb-8 text-white">
+    <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">What Our Users Say</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white text-gray-800 p-6 rounded-lg shadow-md">
+            <p class="italic mb-4">"Nairobi Mobility Insights provided invaluable data for our new bus route planning. The hotspot analysis was spot-on!"</p>
+            <p class="font-semibold text-blue-700">- Jane Doe, City Urban Planner</p>
+        </div>
+        <div class="bg-white text-gray-800 p-6 rounded-lg shadow-md">
+            <p class="italic mb-4">"We've optimized our driver dispatch significantly, leading to a 15% reduction in idle time. A game-changer for our operations."</p>
+            <p class="font-semibold text-green-700">- Alex Kimani, Operations Manager, Local Ride-hailing Service</p>
+        </div>
+        <div class="bg-white text-gray-800 p-6 rounded-lg shadow-md md:col-span-2 lg:col-span-1">
+            <p class="italic mb-4">"Understanding where demand truly is has allowed us to strategically place new matatu pick-up points, improving commuter experience dramatically."</p>
+            <p class="font-semibold text-purple-700">- Sarah Njuguna, Community Transport Lead</p>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section (Repeated for visibility) -->
+<section class="bg-green-600 text-white p-8 rounded-xl shadow-lg text-center">
+    <h2 class="text-4xl sm:text-5xl font-bold mb-4">Ready to Innovate Nairobi's Transport?</h2>
+    <p class="text-xl sm:text-2xl mb-8">
+        Join us in building a smarter, more efficient, and sustainable city.
+    </p>
+    <a href="{{ url_for('upload_file') }}" class="bg-white text-green-700 hover:bg-green-100 font-bold py-4 px-10 rounded-full shadow-lg text-lg sm:text-xl transition duration-300 ease-in-out transform hover:scale-105">
+        Start Your Analysis Now &rarr;
+    </a>
+</section>
+{% endblock %}

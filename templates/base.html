@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Nairobi Mobility Insights{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1; /* Allows content to expand */
+        }
+        .flash-message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+        .flash-message.success {
+            background-color: #d1fae5; /* green-100 */
+            color: #065f46; /* green-800 */
+            border: 1px solid #34d399; /* green-400 */
+        }
+        .flash-message.error {
+            background-color: #fee2e2; /* red-100 */
+            color: #991b1b; /* red-800 */
+            border: 1px solid #ef4444; /* red-400 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <nav class="bg-blue-800 p-4 shadow-md">
+        <div class="container-wrapper flex justify-between items-center">
+            <a href="{{ url_for('index') }}" class="text-white text-2xl font-bold rounded-lg px-3 py-1 hover:bg-blue-700 transition duration-300">Nairobi Mobility Insights</a>
+            <div class="space-x-4">
+                <a href="{{ url_for('index') }}" class="text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-700 transition duration-300">Home</a>
+                <a href="{{ url_for('upload_file') }}" class="text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-700 transition duration-300">Upload Data</a>
+                <a href="{{ url_for('about') }}" class="text-white px-3 py-2 rounded-md text-lg font-medium hover:bg-blue-700 transition duration-300">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-wrapper py-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-6">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center p-4 mt-auto">
+        <p>&copy; 2025 Nairobi Mobility Insights. All rights reserved. | Powered by Data for SDG 11.</p>
+    </footer>
+</body>
+</html>
